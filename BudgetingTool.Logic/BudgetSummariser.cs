@@ -1,4 +1,5 @@
-﻿using BudgetingTool.Logic.Enums;
+﻿using BudgetingTool.Logic.Abstracts;
+using BudgetingTool.Logic.Enums;
 using BudgetingTool.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,15 +37,17 @@ namespace BudgetingTool.Logic
 
         private BudgetSummary CalculateSummary(DateTime startDateTime)
         {
+            IEnumerable<ABudgetItem> budgetItems = Budget.BudgetItems.Where(x => x.ItemDate >= startDateTime && x.ItemDate <= EndDate);
+
             IEnumerable<IncomeBudgetItem> incomeItems =
-                Budget.IncomeBudgetItems
-                    .Where(x => x.ItemDate >= startDateTime && x.ItemDate <= EndDate)
+                budgetItems
+                    .Where(x => x.IncomeOrOutcome.Equals(IncomeOutcomeEnum.Income))
                     .Cast<IncomeBudgetItem>();
             decimal totalIncomeValue = incomeItems.Sum(x => x.Value);
 
             IEnumerable<OutcomeBudgetItem> outcomeItems =
-                Budget.OutcomeBudgetItems
-                    .Where(x => x.ItemDate >= startDateTime && x.ItemDate <= EndDate)
+                budgetItems
+                    .Where(x => x.IncomeOrOutcome.Equals(IncomeOutcomeEnum.Outcome))
                     .Cast<OutcomeBudgetItem>();
             decimal totalOutcomeValue = outcomeItems.Sum(x => x.Value);
 

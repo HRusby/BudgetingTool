@@ -1,5 +1,4 @@
-﻿using BudgetingTool.Logic.Interfaces;
-using System;
+﻿using System;
 
 namespace BudgetingTool.ConsoleProgram
 {
