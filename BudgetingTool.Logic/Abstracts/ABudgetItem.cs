@@ -9,9 +9,9 @@ namespace BudgetingTool.Logic.Abstracts
     public abstract class ABudgetItem : IBudgetItem
     {
         public IncomeOutcomeEnum IncomeOrOutcome { get; private set; }
-        public decimal Value { get; private set; }
-        public string Description { get; private set; }
-        public DateTime ItemDate { get; private set; }
+        public decimal Value { get; set; }
+        public string Description { get; set; }
+        public DateTime ItemDate { get; set; }
 
         public ABudgetItem(IncomeOutcomeEnum cashType, decimal value, string description, DateTime itemDate)
         {

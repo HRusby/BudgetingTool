@@ -8,6 +8,8 @@ namespace BudgetingTool.Logic
 {
     public class BudgetItemConverter : JsonConverter
     {
+        public override bool CanRead => true;
+        public override bool CanWrite => false;
         public override bool CanConvert(Type objectType)
         {
             return typeof(IncomeBudgetItem).IsAssignableFrom(objectType) || typeof(OutcomeBudgetItem).IsAssignableFrom(objectType);
@@ -23,13 +25,16 @@ namespace BudgetingTool.Logic
             ABudgetItem item;
             if (isIncome)
             {
-                item = new IncomeBudgetItem(default(IncomeCategoryEnum), default(decimal), default(string), default(DateTime));
+                IncomeCategoryEnum category = Enum.Parse<IncomeCategoryEnum>(jsonObject["Category"].ToString());
+                item = new IncomeBudgetItem(category, default(decimal), default(string), default(DateTime));
             }
             else
             {
-                item = new OutcomeBudgetItem(default(OutcomeCategoryEnum), default(decimal), default(string), default(DateTime));
+                OutcomeCategoryEnum category = Enum.Parse<OutcomeCategoryEnum>(jsonObject["Category"].ToString());
+                item = new OutcomeBudgetItem(category, default(decimal), default(string), default(DateTime));
             }
 
+            
             serializer.Populate(jsonObject.CreateReader(), item);
 
             return item;
