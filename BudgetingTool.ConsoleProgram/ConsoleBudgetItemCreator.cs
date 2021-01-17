@@ -6,11 +6,11 @@ namespace BudgetingTool.ConsoleProgram
 {
     internal class ConsoleBudgetItemCreator
     {
-        public ConsoleBudgetItemCreator() { }
+        internal ConsoleBudgetItemCreator() { }
 
-        public IncomeBudgetItem CreateIncomeBudgetItem()
+        internal IncomeBudgetItem CreateIncomeBudgetItem()
         {
-            DateTime itemDate = ConsoleHelper.GetDateInput("Enter item date");
+            DateTime itemDate = ConsoleHelper.GetDateTimeInput("Enter item date");
             string description = ConsoleHelper.GetStringInput("Enter an Item Description");
             decimal value = ConsoleHelper.GetDecimalInput("Enter the Value:");
 
@@ -19,9 +19,9 @@ namespace BudgetingTool.ConsoleProgram
 
         }
 
-        public OutcomeBudgetItem CreateOutcomeBudgetItem()
+        internal OutcomeBudgetItem CreateOutcomeBudgetItem()
         {
-            DateTime itemDate = ConsoleHelper.GetDateInput("Enter item date");
+            DateTime itemDate = ConsoleHelper.GetDateTimeInput("Enter item date");
             string description = ConsoleHelper.GetStringInput("Enter an Item Description");
             decimal value = ConsoleHelper.GetDecimalInput("Enter the Value:");
             OutcomeCategoryEnum category = ConsoleHelper.GetEnumValueFromConsoleInput<OutcomeCategoryEnum>("Enter an Outcome Category:");

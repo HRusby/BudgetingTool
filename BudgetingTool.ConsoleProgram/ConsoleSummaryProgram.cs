@@ -8,12 +8,14 @@ namespace BudgetingTool.ConsoleProgram
 {
     internal class ConsoleSummaryProgram
     {
-
-        public void Run(IBudget budget)
+        internal void Run()
         {
+            ConsoleHelper.WriteSpacedLine("Enter Budget FilePath (including filename)");
+            IBudget budget = JsonBudget.LoadBudget(Console.ReadLine());
+
             TimePeriodEnum summaryPeriod = ConsoleHelper.GetEnumValueFromConsoleInput<TimePeriodEnum>("Select Summary TimePeriod: ");
             DateTime endDate;
-            if(ConsoleHelper.GetBooleanInput("From Current Date?"))
+            if (ConsoleHelper.GetBooleanInput("From Current Date?"))
             {
                 endDate = DateTime.Today;
             }
@@ -29,18 +31,18 @@ namespace BudgetingTool.ConsoleProgram
 
         private static void OutputSummary(BudgetSummary summary)
         {
-            Console.WriteLine("Summary: ");
+            ConsoleHelper.WriteSpacedLine("Summary: ");
             Console.WriteLine($"Summary Start Date: {summary.StartDate}");
             Console.WriteLine($"Summary End Date: {summary.EndDate}");
             Console.WriteLine($"Income Total: {summary.TotalIncome}");
             Console.WriteLine($"Outcome Total: {summary.TotalOutcome}");
-            Console.WriteLine("Income Category Totals:");
+            ConsoleHelper.WriteSpacedLine("Income Category Totals:");
             foreach (KeyValuePair<IncomeCategoryEnum, decimal> pair in summary.GetReadableIncomeCategoryTotals())
             {
                 Console.WriteLine($"\t{pair.Key} - £{pair.Value}");
             }
 
-            Console.WriteLine("Outcome Category Totals:");
+            ConsoleHelper.WriteSpacedLine("Outcome Category Totals:");
             foreach (KeyValuePair<OutcomeCategoryEnum, decimal> pair in summary.GetReadableOutcomeCategoryTotals())
             {
                 Console.WriteLine($"\t{pair.Key} - £{pair.Value}");

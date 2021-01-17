@@ -6,11 +6,11 @@ namespace BudgetingTool.ConsoleProgram
 {
     internal static class ConsoleHelper
     {
-        public static int ReadInt()
+        internal static int ReadInt()
         {
             string line = Console.ReadLine();
             int convertedResult;
-            if(!int.TryParse(line, out convertedResult))
+            if (!int.TryParse(line, out convertedResult))
             {
                 Console.WriteLine("Value entered was not numeric. Please try again.");
                 return ReadInt();
@@ -19,14 +19,15 @@ namespace BudgetingTool.ConsoleProgram
             return convertedResult;
         }
 
-        public static bool GetBooleanInput(string prompt)
+        internal static bool GetBooleanInput(string prompt)
         {
-            Console.WriteLine($"{prompt} y/n");
+            WriteSpacedLine($"{prompt} y/n");
             string input = Console.ReadLine();
             if (input.ToLower().Equals("y"))
             {
                 return true;
-            }else if (input.ToLower().Equals("n"))
+            }
+            else if (input.ToLower().Equals("n"))
             {
                 return false;
             }
@@ -35,9 +36,9 @@ namespace BudgetingTool.ConsoleProgram
             return GetBooleanInput(prompt);
         }
 
-        public static T GetEnumValueFromConsoleInput<T>(string prompt) where T : Enum
+        internal static T GetEnumValueFromConsoleInput<T>(string prompt) where T : Enum
         {
-            Console.WriteLine(prompt);
+            WriteSpacedLine(prompt);
             Console.Write(EnumToConsoleText<T>());
             int numericEnumVal = ReadInt();
 
@@ -50,7 +51,7 @@ namespace BudgetingTool.ConsoleProgram
             return (T)(object)numericEnumVal;
         }
 
-        private static string EnumToConsoleText<T>() where T : Enum
+        internal static string EnumToConsoleText<T>() where T : Enum
         {
             StringBuilder builder = new StringBuilder();
 
@@ -63,24 +64,42 @@ namespace BudgetingTool.ConsoleProgram
             return builder.ToString();
         }
 
-        public static DateTime GetDateInput(string prompt)
+        internal static DateTime GetDateInput(string prompt)
         {
-            Console.WriteLine($"{prompt} using format ddMMyyyy");
+            WriteSpacedLine($"{prompt} using format ddMMyyyy");
             DateTime itemDate = DateTime.ParseExact(Console.ReadLine(), "ddMMyyyy", CultureInfo.InvariantCulture);
             return itemDate;
         }
 
-        public static string GetStringInput(string prompt)
+        internal static DateTime GetDateTimeInput(string prompt)
         {
-            Console.WriteLine(prompt);
+            WriteSpacedLine($"{prompt} using format \"ddMMyyyyHH24mmss\"");
+            DateTime itemDate;
+            if (DateTime.TryParseExact(Console.ReadLine(), "ddMMyyyyHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out itemDate))
+            {
+                return itemDate;
+            }
+            WriteSpacedLine("Input not recognised. Try Again.");
+            return GetDateTimeInput(prompt);
+        }
+
+        internal static string GetStringInput(string prompt)
+        {
+            WriteSpacedLine(prompt);
             return Console.ReadLine();
         }
 
-        public static decimal GetDecimalInput(string prompt)
+        internal static decimal GetDecimalInput(string prompt)
         {
-            Console.WriteLine(prompt);
+            WriteSpacedLine(prompt);
             decimal value = decimal.Parse(Console.ReadLine());
             return value;
+        }
+
+        internal static void WriteSpacedLine(string line)
+        {
+            Console.WriteLine();
+            Console.WriteLine(line);
         }
     }
 }
