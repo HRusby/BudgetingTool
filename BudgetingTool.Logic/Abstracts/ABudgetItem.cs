@@ -1,19 +1,21 @@
 ﻿using BudgetingTool.Logic.Enums;
 using BudgetingTool.Logic.Interfaces;
+using Newtonsoft.Json;
 using System;
 
 namespace BudgetingTool.Logic.Abstracts
 {
+    [JsonConverter(typeof(BudgetItemConverter))]
     public abstract class ABudgetItem : IBudgetItem
     {
-        public IncomeOutcomeEnum CashType { get; private set; }
+        public IncomeOutcomeEnum IncomeOrOutcome { get; private set; }
         public decimal Value { get; private set; }
         public string Description { get; private set; }
         public DateTime ItemDate { get; private set; }
 
         public ABudgetItem(IncomeOutcomeEnum cashType, decimal value, string description, DateTime itemDate)
         {
-            CashType = cashType;
+            IncomeOrOutcome = cashType;
             Value = value;
             Description = description;
             ItemDate = itemDate;

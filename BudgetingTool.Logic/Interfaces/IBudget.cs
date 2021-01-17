@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using BudgetingTool.Logic.Abstracts;
+using System.Collections.Generic;
 
 namespace BudgetingTool.Logic.Interfaces
 {
     public interface IBudget
     {
-        IEnumerable<IncomeBudgetItem> IncomeBudgetItems { get; }
-        IEnumerable<OutcomeBudgetItem> OutcomeBudgetItems { get; }
+        List<ABudgetItem> BudgetItems { get; }
         void SaveBudget(string saveLocation);
     }
 }

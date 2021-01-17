@@ -1,38 +1,37 @@
-﻿using BudgetingTool.Logic.Interfaces;
+﻿using BudgetingTool.Logic.Abstracts;
+using BudgetingTool.Logic.Interfaces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Linq;
 
 namespace BudgetingTool.Logic
 {
     public class JsonBudget : IBudget
     {
-        public IEnumerable<IncomeBudgetItem> IncomeBudgetItems { get; private set; }
-
-        public IEnumerable<OutcomeBudgetItem> OutcomeBudgetItems { get; private set; }
+        public List<ABudgetItem> BudgetItems { get; private set; }
 
         [JsonConstructor]
-        public JsonBudget(IEnumerable<IncomeBudgetItem> incomeBudgetItems, IEnumerable<OutcomeBudgetItem> outcomeBudgetItems)
+        public JsonBudget(IEnumerable<ABudgetItem> budgetItems)
         {
-            IncomeBudgetItems = incomeBudgetItems;
-            OutcomeBudgetItems = outcomeBudgetItems;
+            BudgetItems = budgetItems.ToList();
         }
 
         public void SaveBudget(string saveLocation)
         {
-            JsonSerializerOptions options = new JsonSerializerOptions()
-            {
-                WriteIndented = true
-            };
-            string json = JsonSerializer.Serialize(this, options);
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             File.WriteAllText($@"{saveLocation}", json);
         }
 
         public static JsonBudget LoadBudget(string filepath)
         {
-            return JsonSerializer.Deserialize<JsonBudget>(File.ReadAllText(filepath));
+            return JsonConvert.DeserializeObject<JsonBudget>(File.ReadAllText(filepath));
+        }
+
+        public void AddBudgetItems(IEnumerable<ABudgetItem> newBudgetItems)
+        {
+            BudgetItems.AddRange(newBudgetItems);
         }
     }
 }

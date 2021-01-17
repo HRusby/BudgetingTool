@@ -5,7 +5,7 @@ namespace BudgetingTool.Logic.Interfaces
 {
     public interface IBudgetItem
     {
-        IncomeOutcomeEnum CashType { get; }
+        IncomeOutcomeEnum IncomeOrOutcome { get; }
         string Description { get; }
         DateTime ItemDate { get; }
         decimal Value { get; }
